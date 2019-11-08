@@ -18,6 +18,7 @@ export default function Rooms() {
         list.push(response.data.name)
         setRooms(list);
         setNewRoom('');
+        setLoaded(false);
 
     }
 
@@ -33,15 +34,17 @@ export default function Rooms() {
     }
 
     useEffect(() => {
-        try {
-            fetchRooms();
-            setLoaded(true)
-        } catch(e){
-            console.log(e)
+
+        if (!loaded) {
+            try {
+                fetchRooms();
+                setLoaded(true)
+            } catch(e){
+                console.log(e)
+            }
         }
-        
-        setLoaded(true);       
-    }, [newRoom]);
+      
+    });
 
 	return (
 		<Container>
