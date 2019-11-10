@@ -10,6 +10,19 @@ export default function Rooms() {
     const [loaded, setLoaded] = useState(false);
     const [newRoom, setNewRoom] = useState('');
 
+    useEffect(() => {
+
+        if (!loaded) {
+            try {
+                fetchRooms();
+                setLoaded(true)
+            } catch(e){
+                console.log(e)
+            }
+        }
+      
+    });
+
 
     const addRoom = async (roomName) => {
         roomName = roomName.trim().replace(/\s/g,'_');
@@ -33,18 +46,6 @@ export default function Rooms() {
         setRooms(response.data);
     }
 
-    useEffect(() => {
-
-        if (!loaded) {
-            try {
-                fetchRooms();
-                setLoaded(true)
-            } catch(e){
-                console.log(e)
-            }
-        }
-      
-    });
 
 	return (
 		<Container>

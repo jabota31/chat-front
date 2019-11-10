@@ -22,22 +22,26 @@ export default function Main() {
 	const [user, setUser] = useState("Anônimo");
 	const [loaded, setLoaded] = useState(false);
 
-	const addMessage = async () => {
-		// if (text.trim() !== '') setMessages([...messages, {text, minha: true}])
+	useEffect(() => {
+
+        if (!loaded) {
+            try {
+				fetchMessages(room);
+				setLoaded(true);
+            } catch(e){
+                console.log(e)
+            }
+        }
+      
+    });
+
+	const addMessage = async (text) => {
+		if (text.trim() !== ''){
+			setMessages([...messages, {text, minha: true}])
 			const data = {text, room, user};
 			socket.emit('message', data)
-	}
+			const response = await axios.post('/message/save', data);
 
-	const saveMessage = async (data) => {
-		await axios.post('/message/save', data);
-	} 
-
-
-	const handleSend = async (text) => {
-		if (text.trim() !== '') {
-			const data = {text, room, user};
-			saveMessage(data);
-			addMessage()
 		}
 	}
 
@@ -50,21 +54,9 @@ export default function Main() {
 
 	const fetchMessages = async room => {
 		const response = await axios('/message/'+room);
+		console.log(response.data);
 		setMessages(response.data)
 	}
-
-	useEffect(() => {
-
-        if (!loaded) {
-            try {
-				fetchMessages(room)
-				setLoaded(true);
-            } catch(e){
-                console.log(e)
-            }
-        }
-      
-    });
 
 	socket.on('chat', (data) => {
 		console.log(data);
@@ -99,7 +91,7 @@ export default function Main() {
 			</MainContainer>
 			<TextArea>
 				<textarea value={text} onChange={value => setText(value.target.value)} onKeyDown={onEnterPress}/>
-				<button onClick={() => handleSend(text)}>Enviar</button>
+				<button onClick={(text) => addMessage(text)}>Enviar</button>
 			</TextArea>
 		</Container>
 	);
