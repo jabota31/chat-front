@@ -48,11 +48,7 @@ export default function Rooms() {
 
 
 	return (
-		<Container>
-			<NavBar>
-				<Logo>Bate papo OUL</Logo>
-            </NavBar>
-
+        <Container>
             <MainContainer>
                 <TextArea>
                     <button onClick={() => addRoom(newRoom)}>Criar sala</button>

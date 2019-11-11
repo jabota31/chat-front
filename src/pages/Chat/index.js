@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { useParams} from "react-router";
-import { Container, NavBar, Logo, MainContainer, PeopleArea, ChatArea, TextArea } from './components';
+import { Container, MainContainer, PeopleArea, ChatArea, TextArea } from './components';
 
 import socketIOClient from "socket.io-client";
 import axios from '../../service/api';
 
 
-export default function Main() {
+export default function Chat() {
 
 	const endpoint = 'localhost:3334';
 
@@ -35,7 +35,8 @@ export default function Main() {
       
     });
 
-	const addMessage = async (text) => {
+	const addMessage = async () => {
+		console.log(text)
 		if (text.trim() !== ''){
 			setMessages([...messages, {text, minha: true}])
 			const data = {text, room, user};
@@ -74,9 +75,6 @@ export default function Main() {
 
 	return (
 		<Container>
-			<NavBar>
-				<Logo>Bate papo OUL</Logo>
-			</NavBar>
 			<MainContainer>
 				<ChatArea>
 					{ messages.map(message => (
@@ -91,7 +89,7 @@ export default function Main() {
 			</MainContainer>
 			<TextArea>
 				<textarea value={text} onChange={value => setText(value.target.value)} onKeyDown={onEnterPress}/>
-				<button onClick={(text) => addMessage(text)}>Enviar</button>
+				<button onClick={addMessage}>Enviar</button>
 			</TextArea>
 		</Container>
 	);
