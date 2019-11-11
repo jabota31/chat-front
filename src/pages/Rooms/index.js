@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../../components/Header';
 
 import { Container, NavBar, Logo, MainContainer, UnorderedList, ListItem, TextArea} from './components';
 import axios from '../../service/api'
@@ -49,6 +50,7 @@ export default function Rooms() {
 
 	return (
         <Container>
+            <Header></Header>
             <MainContainer>
                 <TextArea>
                     <button onClick={() => addRoom(newRoom)}>Criar sala</button>

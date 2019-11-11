@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useParams} from "react-router";
 import { Container, MainContainer, PeopleArea, ChatArea, TextArea } from './components';
+import Header from '../../components/Header';
 
 import socketIOClient from "socket.io-client";
 import axios from '../../service/api';
@@ -75,6 +76,7 @@ export default function Chat() {
 
 	return (
 		<Container>
+			<Header></Header>
 			<MainContainer>
 				<ChatArea>
 					{ messages.map(message => (
