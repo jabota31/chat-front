@@ -9,7 +9,7 @@ import axios from '../../service/api';
 
 export default function Chat() {
 
-	const endpoint = 'localhost:3334';
+	const endpoint = 'localhost:3333';
 
 	const socket = socketIOClient(endpoint);
 	const {room} = useParams();
@@ -55,7 +55,7 @@ export default function Chat() {
 	}
 
 	const fetchMessages = async room => {
-		const response = await axios('/message/'+room);
+		const response = await axios('/message/' + room);
 		console.log(response.data);
 		setMessages(response.data)
 	}

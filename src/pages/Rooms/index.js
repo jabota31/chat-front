@@ -27,7 +27,7 @@ export default function Rooms() {
 
     const addRoom = async (roomName) => {
         roomName = roomName.trim().replace(/\s/g,'_');
-        const response = await axios('/room/' + roomName);
+        const response = await axios('room/' + roomName);
         const list = rooms;
         list.push(response.data.name)
         setRooms(list);
@@ -43,7 +43,7 @@ export default function Rooms() {
 	}
 
     const fetchRooms = async () => {
-        const response = await axios('/room');
+        const response = await axios('room');
         setRooms(response.data);
     }
 

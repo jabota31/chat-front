@@ -9,10 +9,11 @@ import Register from './pages/Register'
 export default function Routes() {
     return (
         <BrowserRouter>
-            <Route path="/salas" exact component={Rooms} />
-            <Route path="/sala/:room" exact component={Chat} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/cadastrar" exact component={Register} />
+			<Route path="/" exact component={Rooms} />
+            <Route path="/salas" component={Rooms} />
+            <Route path="/sala/:room" component={Chat} />
+            <Route path="/login" component={Login} />
+            <Route path="/cadastrar" component={Register} />
         </BrowserRouter>
     )
 }
