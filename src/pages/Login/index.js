@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import axios from '../../service/api';
 import { Redirect } from 'react-router-dom';
 
+import { UserInput, PassInput, LogButton, Container } from './components';
+
 export default function Login() {
 
     const [username, setUsername] = useState('');
@@ -25,18 +27,30 @@ export default function Login() {
         console.log(response);
         localStorage.setItem('myToken', response.data.token);
         setLogged(true);
-    }
-
+	}
+	
+	const onEnterPress = (e) => {
+		if(e.key === "Enter" && e.shiftKey === false) {
+		  send();
+		}
+	}
 
     return (
-        <div>
+        <Container>
             {renderRedirect()}
-            <p>username:</p>
-            <textarea value={username} onChange={value => setUsername(value.target.value)}></textarea>
-            <p>senha:</p>
-            <textarea value={password} onChange={value => setPassword(value.target.value)}></textarea>
-            <button onClick={send}>Logar</button>
-        </div>
+
+			<div>
+				<UserInput type="text" placeholder="Username" value={username} 
+				onChange={value => setUsername(value.target.value)}
+				onKeyDown={onEnterPress} />
+				<PassInput type="password" placeholder="Password" value={password}
+				onChange={value => setPassword(value.target.value)}
+				onKeyDown={onEnterPress} />
+	
+	            <LogButton onClick={send}>Logar</LogButton>
+			</div>
+
+        </Container>
     );
 }
 

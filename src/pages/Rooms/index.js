@@ -79,7 +79,7 @@ export default function Rooms() {
                 {!loaded ? <p>Carregando...</p> : ''}
                 <RoomList>
                     {loaded ? rooms.map((room,index) =>
-						<Link to={`/sala/${room.name}`}>
+						<Link to={`/sala/${room.name}?user=${user}`}>
                         	<Room key={index}>
                                 {room.name}
                         	</Room>

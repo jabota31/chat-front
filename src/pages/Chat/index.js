@@ -7,7 +7,7 @@ import socketIOClient from "socket.io-client";
 import axios from '../../service/api';
 
 
-export default function Chat() {
+export default function Chat(props) {
 
 	const endpoint = 'localhost:3334';
 
@@ -106,13 +106,13 @@ export default function Chat() {
 		
 		<Container>
 			{renderRedirect()}
-			<Header></Header>
+			<Header user={props.location.search.substring(1).split("=")[1]}></Header>
 			<MainContainer>
 				<ChatArea>
 					{ messages.map(message => (
-					<div className={message.minha ? "minha" : ""}>
+					<div className={message.user === user ? "minha" : ""}>
 						<p>
-							{message.minha ? "Eu" : message.user} ---> {message.text}
+							{message.user === user ? "Eu" : message.user} 🠒 {message.text}
 						</p>
 					</div>
 					)) }
@@ -121,7 +121,7 @@ export default function Chat() {
 			</MainContainer>
 			<TextArea>
 				<textarea value={text} onChange={value => setText(value.target.value)} onKeyDown={onEnterPress}/>
-				<button onClick={addMessage}>Enviar</button>
+					<button onClick={addMessage}>Enviar</button>
 			</TextArea>
 		</Container>
 	);

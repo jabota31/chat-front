@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import axios from '../../service/api';
 import { Redirect } from 'react-router-dom';
 
-export default function Register() {
+import { UserInput, PassInput, RegisterButton, Container } from './components';
+
+export default function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [logged, setLogged] = useState(false);
 
     useEffect(()=>{
@@ -33,18 +34,29 @@ export default function Register() {
             setLogged(true)
         }
     }
-
+	
+	const onEnterPress = (e) => {
+		if(e.key === "Enter" && e.shiftKey === false) {
+		  send();
+		}
+	}
 
     return (
-        <div>
+        <Container>
             {renderRedirect()}
-            <p>username:</p>
-            <textarea value={username} onChange={value => setUsername(value.target.value)}></textarea>
-            <p>senha:</p>
-            <textarea value={password} onChange={value => setPassword(value.target.value)}></textarea>
-            <p>confirmar senha:</p>
-            <textarea value={passwordConfirmation} onChange={value => setPasswordConfirmation(value.target.value)}></textarea>
-            <button onClick={send}>Cadastrar</button>
-        </div>
+
+			<div>
+				<UserInput type="text" placeholder="Username" value={username} 
+				onChange={value => setUsername(value.target.value)}
+				onKeyDown={onEnterPress} />
+				<PassInput type="password" placeholder="Password" value={password}
+				onChange={value => setPassword(value.target.value)}
+				onKeyDown={onEnterPress} />
+	
+	            <RegisterButton onClick={send}>Cadastrar-se</RegisterButton>
+			</div>
+
+        </Container>
     );
 }
+

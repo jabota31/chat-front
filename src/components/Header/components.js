@@ -42,3 +42,8 @@ export const Exit = styled.button`
 		background: rgba(0, 0, 0, 0.5);
 	}
 `;
+
+export const User = styled.div`
+	margin-left: 30px;
+	margin-top: 4vh;
+`;
