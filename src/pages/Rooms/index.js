@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 
-import { Container, NavBar, Logo, MainContainer, UnorderedList, ListItem, TextArea} from './components';
+import { Container, NavBar, Logo, MainContainer, RoomList, Room, TextArea} from './components';
 import axios from '../../service/api'
 
 export default function Rooms() {
@@ -52,20 +52,20 @@ export default function Rooms() {
         <Container>
             <Header></Header>
             <MainContainer>
+                {!loaded ? <p>Carregando...</p> : ''}
+                <RoomList>
+                    {loaded ? rooms.map((room,index) =>
+						<Link to={`/sala/${room.name}`}>
+                        	<Room key={index}>
+                                {room.name}
+                        	</Room>
+						</Link>
+                    ): ''}
+                </RoomList>    
                 <TextArea>
                     <button onClick={() => addRoom(newRoom)}>Criar sala</button>
                     <textarea value={newRoom} onChange={value => setNewRoom(value.target.value)} onKeyDown={onEnterPress} />
                 </TextArea>
-                {!loaded ? <p>Carregando...</p> : ''}
-                <UnorderedList>
-                    {loaded ? rooms.map((room,index) =>
-                        <ListItem key={index}>
-                            <Link to={`/sala/${room.name}`}>
-                                {room.name}
-                            </Link>
-                        </ListItem>
-                    ): ''}
-                </UnorderedList>    
 			</MainContainer>
 		</Container>
 	);

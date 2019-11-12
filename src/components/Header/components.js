@@ -16,9 +16,29 @@ export const Logo = styled.div`
 	margin-left: 10px;
 	font-weight: bold;
 	align-items: center;
-	transition: all 0.7s;
+	transition: all 0.3s;
+
+	a {
+		text-decoration: none;
+		color: black;
+	}
 
 	&:hover {
-		transform: scale(2) translateX(27px);
+		transform: scale(1.2);
 	}
 `
+
+export const Exit = styled.button`
+	margin-left: auto;
+	width: 10%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	border: none;
+	color: white;
+	font-size: 1em;
+	transition: 0.2s all;
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.5);
+	}
+`;

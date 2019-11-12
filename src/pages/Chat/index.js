@@ -14,14 +14,11 @@ export default function Chat() {
 	const socket = socketIOClient(endpoint);
 	const {room} = useParams();
 
-	// const [messages, setMessages] = useState([ {message: "Oi, tudo bem?", minha: true}, 
-	// 				   {message: "Tudo, e você?", minha: false},
-	// 				   {message: "E aí galera", minha: false}])
-
-	const [messages, setMessages] = useState([])
+	const [messages, setMessages] = useState([]);
 	const [text, setText] = useState("");
 	const [user, setUser] = useState("Anônimo");
 	const [loaded, setLoaded] = useState(false);
+	const [connectedUsers, setConnectedUsers] = useState([]);
 
 	useEffect(() => {
 
@@ -55,15 +52,22 @@ export default function Chat() {
 	}
 
 	const fetchMessages = async room => {
-		const response = await axios('/message/'+room);
+		const response = await axios('/message/' + room);
 		console.log(response.data);
 		setMessages(response.data)
 	}
 
-	socket.on('chat', (data) => {
+	const fetchConnectedUsers = async room => {
+		const response = await axios('/room/' + room);
+		setConnectedUsers(response.data);
+	}
+
+	socket.on('chat', async (data) => {
 		console.log(data);
 		socket.emit('chat', 'Estou conectado');
+		axios.get()
 		socket.emit('join_room', room);
+
 	})
 
 	socket.on('message', (message) => {

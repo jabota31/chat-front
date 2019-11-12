@@ -1,6 +1,6 @@
-import { NavBar, Logo} from './components';
+import { NavBar, Logo, Exit } from './components';
 import React, {useState, useEffect} from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 export default function Header() {
 
@@ -22,8 +22,8 @@ export default function Header() {
         
         <NavBar>
             {loggedOut ? <Redirect to='/login' /> : ''}
-            <Logo>Bate papo OUL</Logo>
-            <button onClick = {handleClick} >Sair</button>
+            <Logo><Link to='/salas'>Bate Papo UOL</Link></Logo>
+            <Exit onClick = {handleClick} >Sair</Exit>
         </NavBar>
     );
 

@@ -28,22 +28,47 @@ export const Container = styled.div`
 	flex-direction: column;
 	background: rgb(240, 240, 240);
 	height: 100vh;
+	overflow: hidden;
 `
 
 export const MainContainer = styled.div`
 	width: 100%;
-	height: 80vh;
+	height: 100%;
 	margin-top: 10vh;
 	display: flex;
+	flex-direction: column;
 `
 
-export const UnorderedList = styled.ul`
-    
+export const RoomList = styled.div`
+    display: flex;
+	flex-wrap: wrap;
+	background: grey;
+	margin: 0;
+	padding-top: 10px;
+	height: 80vh;
+
+	a {
+		text-decoration: none;
+		color: black;
+	}
 `
 
-export const ListItem = styled.li`
+export const Room = styled.div`
+	background: lightgray;
+	height: 20px;
+	width: 108px;
+	overflow: hidden;
+	padding: 10px;
+	border: 1px solid black;
+	border-radius: 10px;
+	margin: 0 10px;
 
-
+	&:hover {
+		min-width: 108px;
+		overflow: visible; 
+		white-space: normal;
+		width: auto;
+	}
 `
 
 export const ListArea = styled.div`
