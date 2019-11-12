@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useParams} from "react-router";
+import { useParams, Redirect } from "react-router";
 import { Container, MainContainer, PeopleArea, ChatArea, TextArea } from './components';
 import Header from '../../components/Header';
 
@@ -14,16 +14,17 @@ export default function Chat() {
 	const socket = socketIOClient(endpoint);
 	const {room} = useParams();
 
-	// const [messages, setMessages] = useState([ {message: "Oi, tudo bem?", minha: true}, 
-	// 				   {message: "Tudo, e você?", minha: false},
-	// 				   {message: "E aí galera", minha: false}])
-
 	const [messages, setMessages] = useState([])
-	const [text, setText] = useState("");
-	const [user, setUser] = useState("Anônimo");
+	const [text, setText] = useState('');
+	const [user, setUser] = useState('');
 	const [loaded, setLoaded] = useState(false);
+	const [doRedirect, setDoRedirect] = useState(false);
 
 	useEffect(() => {
+
+		if (user === '') {
+			getUsername();
+		}
 
         if (!loaded) {
             try {
@@ -32,50 +33,68 @@ export default function Chat() {
             } catch(e){
                 console.log(e)
             }
-        }
-      
-    });
-
-	const addMessage = async () => {
-		console.log(text)
-		if (text.trim() !== ''){
-			setMessages([...messages, {text, minha: true}])
-			const data = {text, room, user};
-			socket.emit('message', data)
-			const response = await axios.post('/message/save', data);
-
 		}
+		
+		socket.on('chat', (data) => {
+			socket.emit('chat', 'Estou conectado');
+			socket.emit('join_room', room);
+		})
+	
+		socket.on('message', (message) => {
+			setMessages([...messages, message]);
+		})
+      
+	});
+
+	const renderRedirect = () => {
+        if (doRedirect) {
+          return <Redirect to='/login' />
+        }
+    }
+	
+	const getUsername = async () => {
+		
+		try {
+			const token = localStorage.getItem('myToken');
+			const response = await axios.post('/auth/verify', {token});
+			setUser(response.data.user.username);
+		}
+		catch(e) {
+			setDoRedirect(true);
+		}	
+	}
+
+	const addMessage = () => {
+		if (text.trim() !== ''){
+			const data = {text, room, user};
+			socket.emit('message', data);
+			setText('');
+			saveMessage(data);
+		}
+	}
+
+	const saveMessage = async (data) => {
+		await axios.post('/message/save', data);
 	}
 
 	const onEnterPress = (e) => {
 		if(e.key === "Enter" && e.shiftKey === false) {
 		  addMessage(e.target.value);
-		  setText('');
 		}
 	}
 
 	const fetchMessages = async room => {
 		const response = await axios('/message/'+room);
-		console.log(response.data);
-		setMessages(response.data)
+		setMessages(response.data,...messages)
 	}
 
-	socket.on('chat', (data) => {
-		console.log(data);
-		socket.emit('chat', 'Estou conectado');
-		socket.emit('join_room', room);
-	})
 
-	socket.on('message', (message) => {
-		message.minha = false;
-		console.log(message);
-		setMessages([message,...messages]);
-	})
 
-	console.log(messages)
 
 	return (
+		
 		<Container>
+			{renderRedirect()}
 			<Header></Header>
 			<MainContainer>
 				<ChatArea>

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Header from '../../components/Header';
 
-import { Container, NavBar, Logo, MainContainer, UnorderedList, ListItem, TextArea} from './components';
+import { Container, MainContainer, UnorderedList, ListItem, TextArea} from './components';
 import axios from '../../service/api'
 
 export default function Rooms() {
@@ -10,8 +10,14 @@ export default function Rooms() {
     const [rooms, setRooms] = useState([]);
     const [loaded, setLoaded] = useState(false);
     const [newRoom, setNewRoom] = useState('');
+    const [doRedirect, setDoRedirect] = useState(false);
+    const [user, setUser] = useState('');
 
     useEffect(() => {
+
+        if (user === '') {
+			getUsername();
+		}
 
         if (!loaded) {
             try {
@@ -24,6 +30,23 @@ export default function Rooms() {
       
     });
 
+    const renderRedirect = () => {
+        if (doRedirect) {
+          return <Redirect to='/login' />
+        }
+    }
+
+    const getUsername = async () => {
+		
+		try {
+			const token = localStorage.getItem('myToken');
+			const response = await axios.post('/auth/verify', {token});
+			setUser(response.data.user.username);
+		}
+		catch(e) {
+			setDoRedirect(true);
+		}	
+	}
 
     const addRoom = async (roomName) => {
         roomName = roomName.trim().replace(/\s/g,'_');
@@ -50,6 +73,7 @@ export default function Rooms() {
 
 	return (
         <Container>
+            {renderRedirect()}
             <Header></Header>
             <MainContainer>
                 <TextArea>
