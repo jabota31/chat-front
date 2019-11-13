@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from '../../service/api';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import { UserInput, PassInput, LogButton, Container } from './components';
 
@@ -47,7 +47,8 @@ export default function Login() {
 				onChange={value => setPassword(value.target.value)}
 				onKeyDown={onEnterPress} />
 	
-	            <LogButton onClick={send}>Logar</LogButton>
+                <LogButton onClick={send}>Logar</LogButton>
+                <Link to='/cadastrar'>Cadastrar</Link>
 			</div>
 
         </Container>
