@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default axios.create({
-	baseURL: 'http://localhost:3334',
+	baseURL: 'https://redeschatapi.herokuapp.com/',
 	responseTime: 'json',
 	timeout: 4000,
 });

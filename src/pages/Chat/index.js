@@ -9,7 +9,7 @@ import axios from '../../service/api';
 
 export default function Chat(props) {
 
-	const endpoint = 'localhost:3334';
+	const endpoint = 'https://redeschatapi.herokuapp.com/';
 	const {room} = useParams();
 	
 	const [messages, setMessages] = useState([])
