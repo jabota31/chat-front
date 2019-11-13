@@ -28,7 +28,7 @@ export default function Rooms() {
             }
         }
       
-    });
+    }, [user, loaded]);
 
     const renderRedirect = () => {
         if (doRedirect) {
@@ -49,13 +49,11 @@ export default function Rooms() {
 	}
 
     const addRoom = async (roomName) => {
-        roomName = roomName.trim().replace(/\s/g,'_');
+		roomName = roomName.trim().replace(/\s/g,'_');
         const response = await axios('/room/' + roomName);
-        const list = rooms;
-        list.push(response.data.name)
-        setRooms(list);
+        setRooms([...rooms, response.data.name]);
         setNewRoom('');
-        setLoaded(false);
+		setLoaded(false);
 
     }
 
@@ -79,8 +77,8 @@ export default function Rooms() {
                 {!loaded ? <p>Carregando...</p> : ''}
                 <RoomList>
                     {loaded ? rooms.map((room,index) =>
-						<Link to={`/sala/${room.name}?user=${user}`}>
-                        	<Room key={index}>
+						<Link to={`/sala/${room.name}?user=${user}`} key={index}>
+                        	<Room>
                                 {room.name}
                         	</Room>
 						</Link>

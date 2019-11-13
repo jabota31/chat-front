@@ -9,14 +9,11 @@ export default function Header({ user }) {
     const handleClick = () => {
         localStorage.removeItem('myToken');
         setLoggedOut(true)
-        console.log(loggedOut);
     }
 
     useEffect(() => {
-        setLoggedOut(false);
-        console.log(loggedOut);
-        
-    });
+        setLoggedOut(false);   
+    }, []);
 
     return (
         
